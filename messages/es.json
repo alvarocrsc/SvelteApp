@@ -1,5 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"hello_world": "Hola, {name} de es!",
-	"top_sharp_mole_earn": "Si usas VSCode, instala la extensión de i18n de Sherlock para una mejor experiencia de i18n."
+	"top_sharp_mole_earn": "Si usas VSCode, instala la extensión de ",
+	"hour_these_snail_harbor": "para una mejor experiencia.",
+	"polite_major_bat_twirl": "Sherlock i18n"
 }

@@ -15,8 +15,8 @@
 
 	<a
 		href="https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension"
-		target="_blank">Sherlock i18n extension</a
+		target="_blank">{m.polite_major_bat_twirl()}</a
 	>
 
-	for a better i18n experience.
+	{m.hour_these_snail_harbor()}
 </p>
