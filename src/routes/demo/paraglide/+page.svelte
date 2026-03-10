@@ -11,12 +11,12 @@
 </div>
 
 <p>
-	If you use VSCode, install the 
+	{m.top_sharp_mole_earn()}
 
 	<a
 		href="https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension"
-		target="_blank"
-	>Sherlock i18n extension</a>
+		target="_blank">Sherlock i18n extension</a
+	>
 
 	for a better i18n experience.
 </p>
