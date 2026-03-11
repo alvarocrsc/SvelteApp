@@ -135,16 +135,22 @@
 
 	button {
 		margin-top: 1rem;
-		padding: 0.75rem 1.5rem;
+		padding: 0.8rem 1.25rem;
 		border: none;
-		border-radius: 5px;
+		border-radius: 8px;
 		cursor: pointer;
-		font-size: 0.9rem;
+		font-size: 0.8rem;
+		letter-spacing: 0.02em;
 	}
 
 	.submit {
-		background-color: #007bff;
-		color: white;
+		background-color: #171717;
+		color: #fff;
+		font-weight: 500;
+		transition:
+			background-color 0.2s,
+			box-shadow 0.2s;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	}
 
 	.submit:disabled {

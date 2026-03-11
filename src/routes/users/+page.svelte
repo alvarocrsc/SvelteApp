@@ -1,5 +1,7 @@
 <script lang="ts">
 	import AddUserModal from '$lib/components/modals/AddUserModal.svelte';
+	import { error } from '@sveltejs/kit';
+	import { toast } from 'svelte-sonner';
 
 	interface User {
 		id: number;
@@ -20,6 +22,14 @@
 		loading = false;
 	}
 
+	function deleteUser(id: number) {
+		if (confirm('Are you sure?')) {
+			const user = users.find((user) => user.id === id);
+			users = users.filter((user) => user.id !== id);
+			toast.success('User deleted', { description: `${user?.name} was removed` });
+		}
+	}
+
 	$effect(() => {
 		getUsers();
 	});
@@ -32,7 +42,7 @@
 <h1>Users</h1>
 
 <div class="actions">
-	<button onclick={() => (showAddUserModal = true)}>
+	<button class="btn-add" onclick={() => (showAddUserModal = true)}>
 		<span class="material-symbols-outlined"> add_circle </span>
 		Add user
 	</button>
@@ -44,6 +54,7 @@
 		onSubmit={(user) => {
 			const nextId = users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
 			users = [...users, { ...user, id: nextId }];
+			toast.success('User added successfully!');
 		}}
 	/>
 {/if}
@@ -57,6 +68,7 @@
 				<th>Username</th>
 				<th>Email</th>
 				<th>City</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -72,6 +84,12 @@
 						<td>{user.username}</td>
 						<td>{user.email}</td>
 						<td>{user.address.city}</td>
+						<td>
+							<button class="btn-delete" onclick={() => deleteUser(user.id)}>
+								<span class="material-symbols-outlined">delete</span>
+								Delete
+							</button>
+						</td>
 					</tr>
 				{/each}
 			{/if}
@@ -93,21 +111,45 @@
 	button {
 		display: flex;
 		align-items: center;
-		gap: 0.25rem;
-		width: fit-content;
-		background-color: #007bff;
-		color: white;
+		gap: 0.4rem;
+		background-color: #171717;
+		color: #fff;
 		border: none;
-		padding: 0.75rem 1.5rem;
-		border-radius: 5px;
+		padding: 0.8rem 1.25rem;
+		border-radius: 8px;
 		cursor: pointer;
+		font-size: 0.8rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		transition:
+			background-color 0.2s,
+			box-shadow 0.2s;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+	}
+
+	.btn-add {
 		margin-bottom: 1rem;
-		font-size: 0.9rem;
+	}
+
+	.btn-delete {
+		padding: 0.7rem 1.25rem;
+		background-color: #dc3545;
+		color: #fff;
+	}
+
+	.btn-add:hover {
+		background-color: #2e2e2e;
+		box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+	}
+
+	.btn-delete:hover {
+		background-color: #d2525f;
+		box-shadow: 0 3px 8px rgba(220, 53, 69, 0.25);
 	}
 
 	.material-symbols-outlined {
 		margin-left: -4px;
-		font-size: 1.25rem;
+		font-size: 0.9rem;
 	}
 
 	.table-wrapper {
@@ -139,7 +181,7 @@
 	}
 
 	tr {
-		font-size: 0.9rem;
+		font-size: 0.85rem;
 		transition: background-color 0.15s;
 	}
 

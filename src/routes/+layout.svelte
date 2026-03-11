@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
+	import { Toaster } from 'svelte-sonner';
 	import Header from './Header.svelte';
 	import './layout.css';
 
@@ -8,12 +9,13 @@
 </script>
 
 <div class="app">
+	<Toaster closeButton />
 	<Header />
 	<main>{@render children()}</main>
 
 	<footer>
 		<p>
-			visit 
+			visit
 			<a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a>
 			to learn about SvelteKit
 		</p>
@@ -27,6 +29,10 @@
 </div>
 
 <style>
+	:global([data-sonner-toast] [data-description]) {
+		margin-top: 0 !important;
+	}
+
 	.app {
 		display: flex;
 		flex-direction: column;
