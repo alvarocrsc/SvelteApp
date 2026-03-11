@@ -1,19 +1,14 @@
 <script lang="ts">
 	import AddUserModal from '$lib/components/modals/AddUserModal.svelte';
-	import { error } from '@sveltejs/kit';
+	import EditUserModal from '$lib/components/modals/EditUserModal.svelte';
+	import type { User } from '$lib/types';
 	import { toast } from 'svelte-sonner';
-
-	interface User {
-		id: number;
-		name: string;
-		username: string;
-		email: string;
-		address: { city: string };
-	}
 
 	let users = $state<User[]>([]);
 	let loading = $state(true);
 	let showAddUserModal = $state(false);
+	let showEditUserModal = $state(false);
+	let selectedUser = $state<User | null>(null);
 
 	async function getUsers() {
 		loading = true;
@@ -59,6 +54,22 @@
 	/>
 {/if}
 
+{#if showEditUserModal && selectedUser}
+	<EditUserModal
+		user={selectedUser}
+		onClose={() => {
+			showEditUserModal = false;
+			selectedUser = null;
+		}}
+		onSubmit={(updatedUser) => {
+			users = users.map((user) => (user.id === updatedUser.id ? updatedUser : user));
+			showEditUserModal = false;
+			selectedUser = null;
+			toast.success('User updated successfully!');
+		}}
+	/>
+{/if}
+
 <div class="table-wrapper">
 	<table>
 		<thead>
@@ -85,10 +96,22 @@
 						<td>{user.email}</td>
 						<td>{user.address.city}</td>
 						<td>
-							<button class="btn-delete" onclick={() => deleteUser(user.id)}>
-								<span class="material-symbols-outlined">delete</span>
-								Delete
-							</button>
+							<div class="action-btns">
+								<button
+									class="btn-edit"
+									onclick={() => {
+										selectedUser = user;
+										showEditUserModal = true;
+									}}
+								>
+									<span class="material-symbols-outlined">edit</span>
+									Edit
+								</button>
+								<button class="btn-delete" onclick={() => deleteUser(user.id)}>
+									<span class="material-symbols-outlined">delete</span>
+									Delete
+								</button>
+							</div>
 						</td>
 					</tr>
 				{/each}
@@ -106,6 +129,11 @@
 	.actions {
 		display: flex;
 		justify-content: flex-end;
+	}
+
+	.action-btns {
+		display: flex;
+		gap: 0.5rem;
 	}
 
 	button {
@@ -133,7 +161,17 @@
 
 	.btn-delete {
 		padding: 0.7rem 1.25rem;
+		min-width: 90px;
+		justify-content: center;
 		background-color: #dc3545;
+		color: #fff;
+	}
+
+	.btn-edit {
+		padding: 0.7rem 1.25rem;
+		min-width: 90px;
+		justify-content: center;
+		background-color: #646cff;
 		color: #fff;
 	}
 
@@ -145,6 +183,11 @@
 	.btn-delete:hover {
 		background-color: #d2525f;
 		box-shadow: 0 3px 8px rgba(220, 53, 69, 0.25);
+	}
+
+	.btn-edit:hover {
+		background-color: #5a5ae0;
+		box-shadow: 0 3px 8px rgba(100, 108, 255, 0.25);
 	}
 
 	.material-symbols-outlined {
