@@ -3,6 +3,7 @@
 	import ConfirmDeletionModal from '$lib/components/modals/ConfirmDeletionModal.svelte';
 	import EditUserModal from '$lib/components/modals/EditUserModal.svelte';
 	import type { User } from '$lib/types';
+	import { windowStore } from '$lib/window.svelte';
 	import { toast } from 'svelte-sonner';
 
 	let users = $state<User[]>([]);
@@ -135,10 +136,49 @@
 	</table>
 </div>
 
+<div class="size">
+	<div class="size-card">
+		<span class="label">Window width</span>
+		<span class="value">{windowStore.width}px</span>
+	</div>
+	<div class="size-card">
+		<span class="label">Window height</span>
+		<span class="value">{windowStore.height}px</span>
+	</div>
+</div>
+
 <style>
 	h1 {
 		color: #333;
 		margin-bottom: 2rem;
+	}
+
+	.size {
+		display: flex;
+		flex-direction: row;
+		gap: 3rem;
+		justify-content: center;
+		margin-top: 3rem;
+	}
+
+	.size-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.label {
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: #888;
+	}
+
+	.value {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: #222;
 	}
 
 	.actions {

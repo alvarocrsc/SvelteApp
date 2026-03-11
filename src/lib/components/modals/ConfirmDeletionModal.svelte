@@ -48,7 +48,12 @@
 		font-size: 1.6rem;
 	}
 
+	p {
+		margin-top: -12px;
+	}
+
 	.buttons {
+		margin-top: 6px;
 		display: flex;
 		gap: 0.5rem;
 		justify-content: center;
@@ -68,8 +73,22 @@
 		letter-spacing: 0.02em;
 	}
 
+	button:hover {
+		background-color: #e0e0e0;
+	}
+
 	.confirm {
 		background-color: #dc3545;
 		color: #fff;
+	}
+
+	.confirm:hover {
+		background-color: #d2525f;
+		box-shadow: 0 3px 8px rgba(220, 53, 69, 0.25);
+	}
+
+	.material-symbols-outlined {
+		margin-left: -4px;
+		font-size: 0.9rem;
 	}
 </style>

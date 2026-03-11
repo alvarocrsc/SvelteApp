@@ -2,10 +2,15 @@
 	import { page } from '$app/state';
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
 	import { Toaster } from 'svelte-sonner';
+	import { setupWindowStore } from '$lib/window.svelte';
 	import Header from './Header.svelte';
 	import './layout.css';
 
 	let { children } = $props();
+
+	$effect(() => {
+		return setupWindowStore();
+	});
 </script>
 
 <div class="app">
