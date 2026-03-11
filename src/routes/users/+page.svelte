@@ -1,5 +1,6 @@
 <script lang="ts">
 	import AddUserModal from '$lib/components/modals/AddUserModal.svelte';
+	import ConfirmDeletionModal from '$lib/components/modals/ConfirmDeletionModal.svelte';
 	import EditUserModal from '$lib/components/modals/EditUserModal.svelte';
 	import type { User } from '$lib/types';
 	import { toast } from 'svelte-sonner';
@@ -8,7 +9,9 @@
 	let loading = $state(true);
 	let showAddUserModal = $state(false);
 	let showEditUserModal = $state(false);
+	let showConfirmDeletionModal = $state(false);
 	let selectedUser = $state<User | null>(null);
+	let userToDelete = $state<User | null>(null);
 
 	async function getUsers() {
 		loading = true;
@@ -18,11 +21,8 @@
 	}
 
 	function deleteUser(id: number) {
-		if (confirm('Are you sure?')) {
-			const user = users.find((user) => user.id === id);
-			users = users.filter((user) => user.id !== id);
-			toast.success('User deleted', { description: `${user?.name} was removed` });
-		}
+		userToDelete = users.find((user) => user.id === id) ?? null;
+		showConfirmDeletionModal = true;
 	}
 
 	$effect(() => {
@@ -66,6 +66,21 @@
 			showEditUserModal = false;
 			selectedUser = null;
 			toast.success('User updated successfully!');
+		}}
+	/>
+{/if}
+
+{#if showConfirmDeletionModal && userToDelete}
+	<ConfirmDeletionModal
+		onClose={() => {
+			showConfirmDeletionModal = false;
+			userToDelete = null;
+		}}
+		onConfirm={() => {
+			toast.success('User deleted', { description: `${userToDelete?.name} has been deleted.` });
+			users = users.filter((user) => user.id !== userToDelete?.id);
+			showConfirmDeletionModal = false;
+			userToDelete = null;
 		}}
 	/>
 {/if}
